@@ -4,6 +4,7 @@ factorial(1) → 1
 factorial(2) → 2
 factorial(3) → 6
 '''
+
 def factorial(n):
     '''
     idea:
@@ -15,8 +16,6 @@ def factorial(n):
         return 1
 
     return n * factorial(n - 1)
-
-
 
 '''
 We have bunnies standing in a line, numbered 1, 2, ... The odd bunnies (1, 3, ..) have the normal 2 ears. The even bunnies (2, 4, ..)
@@ -44,7 +43,7 @@ def bunny_ear(n):
         return 0
     if n == 1:
         return 2
-    return 5 + bunny_ear(n-2)
+    return 5 + bunny_ear(n - 2)
 
     # if n % 2 == 1:
     #     return 2 + bunny_ear(n - 1)
@@ -55,7 +54,6 @@ def bunny_ear(n):
     # return last_bunny + bunny_ear(n - 1)
 
 
-
 '''
 Given a non-negative int n, return the count of the occurrences of 7 as a digit, so for example 717 yields 2. (no loops).
 Note that mod (%) by 10 yields the rightmost digit (126 % 10 is 6), while divide (/) by 10 removes the rightmost digit (126 / 10 is 12).
@@ -64,6 +62,7 @@ count7(717) → 2
 count7(7) → 1
 count7(123) → 0
 '''
+
 
 def count7(n):
     '''
@@ -101,8 +100,8 @@ def count7(n):
     count7(n % 10) = count7(7) = the number of digits in 7 that are equal to 7 = 1
     count7(n // 10) + count7(n % 10) = 4
 
-
     Debug case n = 5
+
     n // 10 = 0
     n % 10 = 5
     count7(n // 10) = count7(0) = the number of digits in 0 that are equal to 7 = 0
@@ -110,18 +109,19 @@ def count7(n):
     count7(n // 10) + count7(n % 10) = 4
     '''
 
-    #yu:
+    # yu:
     if n < 10:
         return 1 if n == 7 else 0
     return count7(n // 10) + count7(n % 10)
 
-    #nil:
+    # nil:
     if n == 0:
         return 0
-    return count7(n // 10) + 1 if n%10 == 7 else 0
-
+    return count7(n // 10) + 1 if n % 10 == 7 else 0
 
 # Yu:
+
+
 def countX(s):
     '''
     Given a string, compute recursively (no loops) the number of lowercase 'x' chars in the string.
@@ -131,16 +131,21 @@ def countX(s):
     countX("hi") → 0
 
     countX(s): return the number of lowercase 'x' cahrs in the given string s
-    induction hypothesis: for k < len(s) , countX(ss with lenght of k) return the number of lowercase 'x' cahrs in the given string ss
+    induction hypothesis: for k < len(s) , countX(ss with lenght of k)
+    return the number of lowercase 'x' cahrs in the given string ss
     '''
 
     n = len(s)
 
-    if n == 0: return 0
-    if n == 1: return 1 if s == 'x' else 0
+    if n == 0:
+        return 0
+    if n == 1:
+        return 1 if s == 'x' else 0
     return countX(s[1:]) + countX(s[:1])
 
-#Nil:
+# Nil:
+
+
 def countX(s):
     '''
     countX(s) returns the number of 'x' in s
@@ -149,3 +154,155 @@ def countX(s):
     if len(s) == 0:
         return 0
     return countX(s[1:]) + 1 if s[0] == 'x' else 0
+
+
+def change_pi(s):
+    # Given a string, compute recursively(no loops) a new string where all appearances of "pi" have been replaced by "3.14".
+    # changePi("xpix") → "x3.14x"
+    # changePi("pipi") → "3.143.14"
+    # changePi("pip") → "3.14p"
+    '''
+    change_pi(s) replaces all of the "pi" in s to "3.14" , when length == len(s)
+    induction hypothesis: for any string s2 such that len(s2) < len(s), change_pi(s2) works as intended
+    '''
+    n = len(s)
+    # edge + base:
+    if n == 0: return ""
+    if n == 1: return s
+
+    if s[0] == 'p' and s[1] == 'i':
+        return "3.14" + change_pi(s[2:])
+    return s[:1] + change_pi(s[1:])
+
+def array11(nums):
+    # Given an array of ints, compute recursively the number of times that the value 11 appears in the array.
+    # array11([1, 2, 11]) → 1
+    # array11([11, 11]) → 2
+    # array11([1, 2, 3, 4]) → 0
+
+    # index will always be valid from 0 -> n - 1
+    '''
+    array11(nums, index) return the frequency of appearence for value 11 in array "nums" from size 0 to len(nums)
+    induction hypothesis: for any array nums2 that len(nums2) < len(nums), array11(s2) works as intended
+    '''
+    if len(nums) == 0: return 0
+    if len(nums) == 1: return 1 if nums[0] == 11 else 0
+    return array11(nums[:1]) + array11(nums[1:])
+
+
+
+def pairStar(s):
+    '''
+    Given a string, compute recursively a new string where identical chars that are adjacent in the original string are separated
+    from each other by a "*".
+    pairStar("hello") → "hel*lo"
+    pairStar("xxyy") → "x*xy*y"
+    pairStar("aaaa") → "a*a*a*a"
+
+
+    pairStar(s) returns a modified s1 from s, which that it inserts an '*' to separate adjacent repeated alphabetic character
+    induction hypothesis: for any string of s2, where len(s2) < len(s1), pairStar(s2) works as intended
+    '''
+
+    # Edge
+    if len(s) < 2: return s
+
+    # Base
+    if s[0] == s[1]:
+        return s[0] + '*' + pairStar(s[1:])
+    return s[:1] + pairStar(s[1:])
+
+    print(pairStar("hello"), pairStar("xxyy"), pairStar("aaaa"))
+
+
+
+def countAbc(s):
+    # Count recursively the total number of "abc" and "aba" substrings that appear in the given string.
+    #
+    # countABC(s): return the total number of "abc" and "aba" substrings from given s
+    # induction hypothesis: for any given s2 that len(s2) < len(s), countABC(s2) works as intended
+
+    if len(s) < 3: return 0
+    if s[:3] == "abc" or s[:3] == "aba":
+        return 1 + countAbc(s[3:])
+    return 0 + countAbc(s[1:])
+
+
+
+def stringClean(s):
+    # Given a string, return recursively a "cleaned" string where
+    # adjacent chars that are the same have been reduced to a single char.
+    # So "yyzzza" yields "yza".
+    #
+    # stringClean(s): return cleaned string where no adjacent chars are repeated
+    # induction hypothesis: for any s2 which len(s2) < len(s), stringClean(s2) works as intended
+    # print(stringClean("yyzzza"))
+    # print(stringClean("abbbcdd"))
+    # print(stringClean("Hello"))
+    # → "yza" → "abcd" → "Helo"
+
+    if len(s) < 2: return s
+    if s[0] == s[1]:
+        return stringClean(s[1:])
+    return s[0] + stringClean(s[1:])
+
+
+
+def countHi2(s):
+    '''
+    Given a string, compute recursively the number of times lowercase "hi" appears in the string,
+    however do not count "hi" that have an 'x' immedately before them.
+    countHi2("ahixhi") → 1
+    countHi2("ahibhi") → 2
+    countHi2("xhixhi") → 0
+
+    rules:
+    countHi2(s) return the number of occurences of "hi" in str s, except when 'x' appears in front
+    induction hypothesis: for any given s2 which len(s2) < len(s), countHi2(s2) works as intended
+    '''
+
+    n = len(s)
+    if n < 3:
+        if s == 'xhi': return 0
+        if 'hi' in s: return 1
+        return 0
+
+    if 'hi' in s[:3]:
+        if s[:3] == "xhi": return 0 + countHi2(s[3:])
+        if s[0] == 'h': return 1 + countHi2(s[2:])
+        return 1 + countHi2(s[3:])
+    return 0 + countHi2(s[1:])
+
+
+
+def parenBit(s):
+    # Given a string that contains a single pair of parenthesis, compute recursively a new string made of
+    # only of the parenthesis and their contents
+    # so "xyz(abc)123" yields "(abc)".
+
+    # parenBit("xyz(abc)123") → "(abc)"
+    # parenBit("x(hello)") → "(hello)"
+    # parenBit("(xy)1") → "(xy)"
+
+    # parenBit(s) returns a parenthesis of 0 to n character
+    # induction hypothesis: for any s2 which |s2| < |s| , parenBit(s2) works as intended
+
+    if len(s) < 2: return None
+    if s[0] == '(' and s[-1] == ')':
+        return s
+    if s[0] != '(':
+        return parenBit(s[1:])
+    if s[-1] != ')':
+        return parenBit(s[:-1])
+
+
+
+def nestParen(s):
+    # Given a string, return true if it is a nesting of zero or more pairs of
+    # parenthesis, like "(())" or "((()))".
+    # Suggestion: check the first and last chars, and then recur on what's inside
+    # them.
+    #
+    # nestParen("(())") → true
+    # nestParen("((()))") → true
+    # nestParen("(((x))") → false
