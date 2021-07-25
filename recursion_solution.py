@@ -302,7 +302,69 @@ def nestParen(s):
     # parenthesis, like "(())" or "((()))".
     # Suggestion: check the first and last chars, and then recur on what's inside
     # them.
-    #
+
     # nestParen("(())") → true
     # nestParen("((()))") → true
     # nestParen("(((x))") → false
+    # nestParen("(((x)))") → true
+
+    if len(s) == 0: return True
+    if len(s) == 1:
+        if s[0] not in "()":
+            return True
+
+    if s[0] == '(' and s[-1] == ')':
+        return True and nestParen(s[1:-1])
+    return False
+
+
+def strCopies_diff(s, substr, target):
+    # Given a string and a non-empty substring **sub**, compute recursively if at least n copies of sub appear in the string somewhere,
+    # possibly with overlapping. N will be non-negative.
+    #
+    # ```python
+    # strCopies("catcowcat", "cat", 2) → true
+    # strCopies("catcowcat", "cow", 2) → false
+    # strCopies("catcowcat", "cow", 1) → true
+    # ```
+
+    # strCopies(s, substr, target) returns booleans indication of whether *s* contains *target* number of *substr*
+    # Indunction hypothesis: for any s2, that strCopies(s2, substr, target) works as intended when we assume len(s2) < len(s1)
+
+    # what is the base case exactly?
+    # when target == 0 if we keep deducting it?
+    #
+    #
+    # if target == 0:
+    #     return True
+    #
+    # n = len(s):
+    # if n < 3:
+    #     if s == substr:
+    #         target -= 1
+    #
+    #
+    # if s[0] != substr[0]:
+    #     return
+    pass
+
+def strCopies(s, substr, target):
+    # Given a string and a non-empty substring **sub**, compute recursively if at least n copies of sub appear in the string somewhere,
+    # possibly with overlapping. N will be non-negative.
+    #
+    # ```python
+    # strCopies("catcowcat", "cat", 2) → true
+    # strCopies("catcowcat", "cow", 2) → false
+    # strCopies("catcowcat", "cow", 1) → true
+    # ```
+
+    # rec_helper(s, substr) returns the number of appearence of substr in s
+    # induction hypothesis: for any s2 that |s2| < |s|, rec_helper(s2) works as intended
+    def rec_helper(s):
+        n = len(s)
+        if n == 1 or n == 2: return 0
+        if s[:len(substr)] == substr:
+            return 1 + rec_helper(s[1:])
+        return 0 + rec_helper(s[1:])
+    return rec_helper(s) >= target
+print(strCopies("cccccccc", "c", 5))
